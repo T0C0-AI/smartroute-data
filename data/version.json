@@ -2,9 +2,9 @@
   "schema": 1,
   "regions": {
     "seoul_gangnam": {
-      "v": 2,
-      "sha256": "55d95a857125593d81af2c3b6337173e5d19a80f42a85c301b645ff472de4abd",
-      "bytes": 2471986
+      "v": 3,
+      "sha256": "b0ce4a942dde0f6b33988c0393b6ffd8db3033210708b3ab8a9a2eb7aa79e957",
+      "bytes": 3710243
     }
   }
 }

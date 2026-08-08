@@ -95,7 +95,10 @@ def parse_places(csv_text: str, region: str, category: str, types: set[str] | No
             continue
         place_id = row.get("관리번호", "").strip()
         name = row.get("사업장명", "").strip()
-        if not place_id or not name or place_id in seen_ids:
+        # 도로명주소를 우선 쓴다 — 카카오톡 위치 템플릿 등 외부 공유에 표준 주소가 더 잘 맞는다.
+        # 도로명주소가 비어있는 옛날 데이터는 지번주소로 대체한다.
+        address = (row.get("도로명주소") or "").strip() or (row.get("지번주소") or "").strip()
+        if not place_id or not name or not address or place_id in seen_ids:
             continue
         seen_ids.add(place_id)
         try:
@@ -107,6 +110,7 @@ def parse_places(csv_text: str, region: str, category: str, types: set[str] | No
             "region": region,
             "category": category,
             "name": name,
+            "address": address,
             "lat": round(lat, 7),
             "lng": round(lng, 7),
             "has": 0,
