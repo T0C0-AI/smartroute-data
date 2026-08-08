@@ -1,0 +1,39 @@
+name: 장소 데이터 자동 갱신
+
+on:
+  schedule:
+    # 매주 월요일 04:00 KST(전날 19:00 UTC). 공공데이터는 "수시" 갱신이라
+    # 매일 돌릴 필요는 없다 — 인허가/폐업 반영은 며칠 단위로도 충분하다.
+    - cron: "0 19 * * 0"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 의존성 설치
+        run: pip install -r tools/requirements.txt
+
+      - name: 데이터 갱신 스크립트 실행
+        run: python tools/build_places_data.py
+
+      - name: 변경 있으면 커밋
+        run: |
+          git config user.name "smartroute-data-bot"
+          git config user.email "actions@users.noreply.github.com"
+          if git diff --quiet -- data/; then
+            echo "변경 없음 — 커밋 생략"
+            exit 0
+          fi
+          git add data/
+          git commit -m "데이터 자동 갱신: $(date -u +%Y-%m-%d) 기준 공공데이터 반영"
+          git push
