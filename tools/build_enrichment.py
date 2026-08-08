@@ -5,14 +5,24 @@
 공공데이터포털 개발계정 트래픽 한도(하루 1,000건)를 넘지 않게 한 번 실행에 일부만 처리하고
 나머지는 다음 실행(다음 날)에 이어서 한다.
 
-확인된 사실 (2026-08-08, 실제 API 호출로 검증):
+확인된 사실 (2026-08-08~09, 실제 API 호출로 검증):
 - TourAPI는 관광공사가 별도로 등록·관리하는 곳만 있어서 커버리지가 낮다
   (강남구 실측: 우리 데이터 14,029곳 중 181곳, 약 1.3%. 전국 226개 지역 합계로는
   음식점 8,504건 — 상세조회(detailIntro2)가 지역당 1건씩 필요해서 전국을 한 번에
   다 돌리면 호출이 약 9,000건 나온다. 개발계정 하루 한도 1,000건을 훌쩍 넘긴다).
-- parkingfood 값은 "가능"/"불가능"/빈 문자열 세 종류다. "가능"으로 시작하는지만 본다.
-  "불가능"을 "가능"으로 잘못 읽으면 실제 조건보다 더 위험한 오정보가 되니 접두어를
-  반드시 정확히 구분한다.
+- 아기의자·유모차진입·반려동물실내·룸있음·1인석·매운음식제외·뜨거운음식제외 7개 조건은
+  detailIntro2(음식점, contentTypeId=39) 응답 전체를 다 열어봐도 관련 필드가 하나도 없다.
+  대신 원래 찾던 것과 다른 필드 3개가 실제로 채워져 있어서(90건 표본으로 값 분포 확인)
+  그 3개를 새 조건으로 추가했다: smoking(금연 매장), packing(포장 가능),
+  chkcreditcardfood(카드 결제 가능).
+- 값 파싱 규칙(90건 표본 기준):
+  - parkingfood: "가능"으로 시작하는지만 본다("가능 (발렛파킹)" 등 부가설명 허용).
+    "불가능"을 "가능"으로 잘못 읽으면 실제보다 더 위험한 오정보가 된다.
+  - smoking: "금연"이 포함되면 금연 매장("모두 금연석", "금연" 두 형태만 관찰됨).
+  - packing / chkcreditcardfood: "가능"이 포함되고 "불가"·"없음"이 없으면 가능으로 본다
+    ("포장 가능", "제로 페이 네이버페이 가능"처럼 "가능"이 맨 앞에 안 오는 경우가 있어서
+    startswith 대신 in으로 본다. "불가능"도 "가능"을 부분 문자열로 포함하니 부정어 체크가
+    꼭 필요하다).
 - kidsfacility 필드는 표본에서 전부 "0"이라 이번엔 신뢰할 신호가 아니어서 안 쓴다.
 - 이름만으로 매칭하면 같은 상호가 여러 지점일 때 엉뚱한 곳과 매칭될 수 있어서, 이름이
   같고 좌표도 100m 이내로 가까운 경우만 매칭한다(오매칭이 데이터 없음보다 나쁘다).
@@ -22,6 +32,9 @@
   다른 지역으로 통합된 곳들, 인천은 2026년 구 재편 이전 이름)을 그대로 쓰고 있어서
   현재 우리 데이터의 어떤 지역과도 이름이 안 맞는다 — 매칭 로직 문제가 아니라
   TourAPI 원본 데이터가 오래됐다.
+- 4개 조건 모두 detailIntro2 응답 하나에 같이 들어있어서, 상세조회 호출 횟수는 조건이
+  1개일 때와 4개일 때가 똑같다 — 그래서 이미 처리한 지역도 이번에 다시 돌려서(추가 호출
+  없이) 새 조건 3개를 채웠다.
 """
 from __future__ import annotations
 
@@ -43,6 +56,11 @@ BASE = "https://apis.data.go.kr/B551011/KorService2"
 CONTENT_TYPE_FOOD = "39"
 MATCH_RADIUS_M = 100
 PARKING_BIT = 1 << 7  # Constraint.PARKING (core/Constraint.kt와 순서 반드시 일치)
+NO_SMOKING_BIT = 1 << 10  # Constraint.NO_SMOKING
+TAKEOUT_BIT = 1 << 11  # Constraint.TAKEOUT
+CARD_PAYMENT_BIT = 1 << 12  # Constraint.CARD_PAYMENT
+
+NEGATIVE_WORDS = ("불가", "없음")
 
 # 개발계정 하루 한도(1,000건)를 넘지 않게 여유를 두고 기본값을 잡는다.
 # 실행할 때 ENRICHMENT_CALL_BUDGET 환경변수로 조절 가능.
@@ -83,14 +101,33 @@ def fetch_tourapi_food(key: str, area_code: str, sigungu_code: str) -> tuple[lis
     return ([items] if isinstance(items, dict) else items), 2
 
 
-def fetch_parking(key: str, content_id: str) -> str:
+def _is_available(text: str) -> bool:
+    """'가능'이 있고 부정어(불가/없음)가 없으면 참. '불가능'도 '가능'을 부분문자열로
+    포함하니 부정어 체크가 꼭 필요하다."""
+    if not text or any(neg in text for neg in NEGATIVE_WORDS):
+        return False
+    return "가능" in text
+
+
+def fetch_detail_bits(key: str, content_id: str) -> int:
+    """detailIntro2 응답 하나에서 확인 가능한 조건 전부를 한 번에 비트로 뽑는다."""
     detail = call("/detailIntro2", {
         "serviceKey": key, "MobileOS": "ETC", "MobileApp": "SmartRoute",
         "contentId": content_id, "contentTypeId": CONTENT_TYPE_FOOD, "_type": "json",
     })
     d_items = detail["response"]["body"]["items"].get("item", [])
     row = (d_items[0] if isinstance(d_items, list) else d_items) or {}
-    return (row.get("parkingfood") or "").strip()
+
+    bits = 0
+    if (row.get("parkingfood") or "").strip().startswith("가능"):
+        bits |= PARKING_BIT
+    if "금연" in (row.get("smoking") or ""):
+        bits |= NO_SMOKING_BIT
+    if _is_available((row.get("packing") or "").strip()):
+        bits |= TAKEOUT_BIT
+    if _is_available((row.get("chkcreditcardfood") or "").strip()):
+        bits |= CARD_PAYMENT_BIT
+    return bits
 
 
 def build_region(key: str, region_code: str, area_code: str, sigungu_code: str) -> tuple[int, int]:
@@ -120,11 +157,11 @@ def build_region(key: str, region_code: str, area_code: str, sigungu_code: str) 
         if not matched:
             continue
 
-        parking_text = fetch_parking(key, item.get("contentid", ""))
+        bits = fetch_detail_bits(key, item.get("contentid", ""))
         calls_so_far += 1
         time.sleep(0.1)
-        if parking_text.startswith("가능"):
-            enrich[matched["id"]] = enrich.get(matched["id"], 0) | PARKING_BIT
+        if bits:
+            enrich[matched["id"]] = enrich.get(matched["id"], 0) | bits
 
     out = [{"id": k, "has": v} for k, v in enrich.items()]
     out_path = DATA_DIR / f"enrich_{region_code}.json"
