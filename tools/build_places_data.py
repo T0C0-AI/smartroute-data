@@ -33,10 +33,41 @@ LIST_PAGE_URL = "https://file.localdata.go.kr/file/{slug}/info"
 DOWNLOAD_URL = "https://file.localdata.go.kr/file/download/{slug}/info"
 ACTIVE_STATUS = "영업/정상"
 
-# 앱의 DEFAULT_REGION("seoul_gangnam")과 반드시 일치해야 한다 (MainActivity.kt 참고).
+# 서울 25개 자치구. orgCode는 공공데이터포털 지역 선택 드롭다운에서 실측 확인
+# (2026-08-08) — 3000000부터 10000씩 규칙적으로 증가하지만, 임의로 계산하지 않고
+# 실제 드롭다운 옵션 값을 그대로 옮겼다.
 REGIONS = {
-    "seoul_gangnam": "3220000",
+    "seoul_jongno": "3000000",
+    "seoul_junggu": "3010000",
+    "seoul_yongsan": "3020000",
+    "seoul_seongdong": "3030000",
+    "seoul_gwangjin": "3040000",
+    "seoul_dongdaemun": "3050000",
+    "seoul_jungnang": "3060000",
+    "seoul_seongbuk": "3070000",
+    "seoul_gangbuk": "3080000",
+    "seoul_dobong": "3090000",
+    "seoul_nowon": "3100000",
+    "seoul_eunpyeong": "3110000",
+    "seoul_seodaemun": "3120000",
+    "seoul_mapo": "3130000",
+    "seoul_yangcheon": "3140000",
+    "seoul_gangseo": "3150000",
+    "seoul_guro": "3160000",
+    "seoul_geumcheon": "3170000",
+    "seoul_yeongdeungpo": "3180000",
+    "seoul_dongjak": "3190000",
+    "seoul_gwanak": "3200000",
+    "seoul_seocho": "3210000",
+    "seoul_gangnam": "3220000",  # 앱의 DEFAULT_REGION과 일치 (MainActivity.kt 참고)
+    "seoul_songpa": "3230000",
+    "seoul_gangdong": "3240000",
 }
+
+# 지역 사이에 두는 대기시간(초). 다운로드 요청을 25개 지역 × 2개 카테고리 = 50번
+# 연달아 보내면 상대 서버에 부담을 준다 — 실측으로 확인된 간헐적 타임아웃(재시도 로직 참고)도
+# 요청이 몰릴 때 더 자주 날 걸로 보여 여유를 둔다.
+REGION_DELAY_SECONDS = 3
 
 # slug는 실제 사이트에서 카테고리 선택 시 열리는 하위 페이지 경로에서 확인했다.
 # types가 None이면 영업상태만 보고 전부 채택, 아니면 업태구분명이 목록에 있는 것만.
@@ -139,30 +170,52 @@ def bump_version(existing: dict, region: str, new_sha: str) -> int:
     return (prev["v"] + 1) if prev else 1
 
 
+def fetch_region(region: str, org_code: str) -> list[dict]:
+    all_places: list[dict] = []
+    for category, spec in CATEGORIES.items():
+        print(f"[{region}/{category}] 다운로드 중 (slug={spec['slug']}, orgCode={org_code})...", file=sys.stderr)
+        csv_text = fetch_csv(spec["slug"], org_code)
+        places = parse_places(csv_text, region, category, spec["types"])
+        print(f"[{region}/{category}] {len(places)}건", file=sys.stderr)
+        all_places.extend(places)
+    if len(all_places) < 100:
+        raise RuntimeError(f"결과가 {len(all_places)}건뿐 — 파싱이 깨졌을 가능성")
+    return all_places
+
+
 def main():
     out_dir = Path(__file__).resolve().parent.parent / "data"
     version_path = out_dir / "version.json"
     existing = json.loads(version_path.read_text()) if version_path.exists() else {"schema": 1, "regions": {}}
 
     regions_meta = dict(existing.get("regions", {}))
-    for region, org_code in REGIONS.items():
-        all_places: list[dict] = []
-        for category, spec in CATEGORIES.items():
-            print(f"[{region}/{category}] 다운로드 중 (slug={spec['slug']}, orgCode={org_code})...", file=sys.stderr)
-            csv_text = fetch_csv(spec["slug"], org_code)
-            places = parse_places(csv_text, region, category, spec["types"])
-            print(f"[{region}/{category}] {len(places)}건", file=sys.stderr)
-            all_places.extend(places)
+    failed: list[str] = []
+    region_items = list(REGIONS.items())
 
-        if len(all_places) < 100:
-            raise RuntimeError(f"[{region}] 결과가 {len(all_places)}건뿐 — 파싱이 깨졌을 가능성, 배포 중단")
+    for i, (region, org_code) in enumerate(region_items):
+        # 지역 하나가 실패해도(사이트 타임아웃 등) 나머지 24개는 계속 진행한다 —
+        # 25곳 중 1곳 때문에 전체 갱신을 통째로 실패시키는 건 손해가 크다.
+        # 실패한 지역은 이전 버전 데이터를 그대로 두고(regions_meta에서 안 건드림) 다음에 재시도한다.
+        try:
+            all_places = fetch_region(region, org_code)
+        except Exception as e:
+            print(f"[{region}] 실패, 건너뜀: {e}", file=sys.stderr)
+            failed.append(region)
+            continue
 
         meta = write_region(region, all_places, out_dir)
         v = bump_version(existing, region, meta["sha256"])
         regions_meta[region] = {"v": v, "sha256": meta["sha256"], "bytes": meta["bytes"]}
         print(f"[{region}] 합계 {meta['count']}건, v{v}, {meta['bytes']:,} bytes", file=sys.stderr)
 
+        if i < len(region_items) - 1:
+            time.sleep(REGION_DELAY_SECONDS)
+
     version_path.write_text(json.dumps({"schema": 1, "regions": regions_meta}, ensure_ascii=False, indent=2) + "\n")
+
+    if failed:
+        print(f"\n실패한 지역 {len(failed)}개: {', '.join(failed)}", file=sys.stderr)
+        sys.exit(1)  # CI에서 실패를 놓치지 않게 — 단, 성공한 지역의 데이터는 이미 저장됐다
 
 
 if __name__ == "__main__":

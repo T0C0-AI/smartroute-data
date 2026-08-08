@@ -5,6 +5,126 @@
       "v": 3,
       "sha256": "b0ce4a942dde0f6b33988c0393b6ffd8db3033210708b3ab8a9a2eb7aa79e957",
       "bytes": 3710243
+    },
+    "seoul_jongno": {
+      "v": 1,
+      "sha256": "cd595f117fa02dd1ff75a7d9acea269b20c0a3e22b48c1fe26393971f6d73c37",
+      "bytes": 1839175
+    },
+    "seoul_junggu": {
+      "v": 1,
+      "sha256": "6c97847138edb778a6e7cfed0bf3376fe9f1a206e15259804e3c8b982a528684",
+      "bytes": 1812182
+    },
+    "seoul_yongsan": {
+      "v": 1,
+      "sha256": "d92b27da2d56a115d8c37b542cc54b05689e364f324561d323f3b90080253c3f",
+      "bytes": 1455769
+    },
+    "seoul_seongdong": {
+      "v": 1,
+      "sha256": "6d053272a26f537d9bb038888497ca50f23d4b61f309ab0b5ee3c154119623e6",
+      "bytes": 1142837
+    },
+    "seoul_gwangjin": {
+      "v": 1,
+      "sha256": "3d354bf5b018ab9a1426f4f0de487a370ea5dabd93f8c19f747da505248b496a",
+      "bytes": 1203732
+    },
+    "seoul_dongdaemun": {
+      "v": 1,
+      "sha256": "583f1fb9614a65f41a35a644cc28aff951672554ca4342c42610100ad91eccaa",
+      "bytes": 1124589
+    },
+    "seoul_jungnang": {
+      "v": 1,
+      "sha256": "496b8b62388660a264fd62a0a49548500d1887634da8dff4463fdc66ab3cc807",
+      "bytes": 962718
+    },
+    "seoul_seongbuk": {
+      "v": 1,
+      "sha256": "7fd56ee8220da4036f819d74bbdd451d5ff01f5a0001fcabfa5bac3793f7d88f",
+      "bytes": 1096316
+    },
+    "seoul_gangbuk": {
+      "v": 1,
+      "sha256": "ff3bde163717ecebad6b4e2ab91f32c7e1102415529ab2fa81e3911ff140bbbc",
+      "bytes": 867603
+    },
+    "seoul_dobong": {
+      "v": 1,
+      "sha256": "ec110f13ce7da952bc484fb7557ca4b975c1ba8b9d1a109690b0ce7b94fbe8f0",
+      "bytes": 621304
+    },
+    "seoul_nowon": {
+      "v": 1,
+      "sha256": "bd03459ee4c2d70e16a6da26531abb6834a6062fc1ba72afa285681b76b5c699",
+      "bytes": 1065055
+    },
+    "seoul_eunpyeong": {
+      "v": 1,
+      "sha256": "c21f5d85ad33ede54e6492df1781ab18f359072a88cfe6a948fff574156e8525",
+      "bytes": 1006873
+    },
+    "seoul_seodaemun": {
+      "v": 1,
+      "sha256": "ec8fd6ed3cb042bc03a9bdaa0a9805a82b19883caceb2b00d3c411987c8065b4",
+      "bytes": 1045264
+    },
+    "seoul_mapo": {
+      "v": 1,
+      "sha256": "1d42de13bc631769e05c33d7ec89db51a9648108c0fabf1c1eda5a6ae545f2c4",
+      "bytes": 2208612
+    },
+    "seoul_yangcheon": {
+      "v": 1,
+      "sha256": "ee723b8f9b427e01d384f6d7cede1426b587ea3f21f71f2003844152fb14552d",
+      "bytes": 892599
+    },
+    "seoul_gangseo": {
+      "v": 1,
+      "sha256": "5b96b026d9886c88059c7fc5864cea1b66aea57f90bacf47ed6c7c7670b75cdf",
+      "bytes": 1723424
+    },
+    "seoul_guro": {
+      "v": 1,
+      "sha256": "9e75c09f47532ec6a376b8325e79b0ab488d19507dab40b1319a0de305d39581",
+      "bytes": 1164580
+    },
+    "seoul_geumcheon": {
+      "v": 1,
+      "sha256": "ad502298580141dcc363470f1d42a6417b9dd36919cfd113ccd77f3a263fb168",
+      "bytes": 965721
+    },
+    "seoul_yeongdeungpo": {
+      "v": 1,
+      "sha256": "31ba0f91316be593201fccb1d0a1025e3d5cd1d17cda4f8257c54321ecee808a",
+      "bytes": 2064943
+    },
+    "seoul_dongjak": {
+      "v": 1,
+      "sha256": "422daba4eb186648efc118cce33f0c9428569ea660490e7af38cf7a05ea0d513",
+      "bytes": 917047
+    },
+    "seoul_gwanak": {
+      "v": 1,
+      "sha256": "caeae2250d3c1bbcfac13c9ec75cc04e139901c60de2eb230d0782d842775984",
+      "bytes": 1325923
+    },
+    "seoul_seocho": {
+      "v": 1,
+      "sha256": "ee7eb0949a1c62c610733173e4c58f67bbcf11dcd5682075d1216518c69657f1",
+      "bytes": 1718981
+    },
+    "seoul_songpa": {
+      "v": 1,
+      "sha256": "47d3cbc82d2b515656f34c3e1fe7259fab55e8aeddcb985a7186bff6139c7c68",
+      "bytes": 1916813
+    },
+    "seoul_gangdong": {
+      "v": 1,
+      "sha256": "f2441f36d74f68f822420e9642a322de6d53ee88b34576e25a405a3412446088",
+      "bytes": 1167245
     }
   }
 }
