@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-공공데이터포털(행정안전부 지방행정 인허가 데이터)에서 지역별 장소 CSV를 받아
+공공데이터포털(행정안전부 지방행정 인허가 데이터)에서 전국 장소 CSV를 받아
 앱이 쓰는 JSON 스키마(core.Place / PlaceEntity)로 변환한다.
 
 확인된 사실 (2026-08-08, 실제 다운로드로 검증):
@@ -13,8 +13,15 @@
 - 편의시설(주차·아기의자 등) 데이터는 이 데이터셋에 없다. has/traits/verifiedClear를
   전부 0(모름)으로 채운다 — 추측으로 채우면 안전 필터 로직이 무너진다.
 - 카페 카테고리("식품_휴게음식점")에는 편의점·백화점·패스트푸드도 섞여 있다.
-  코스에 쓸 만한 업태(커피숍·다방·전통찻집·떡카페·키즈카페)만 골랐다 —
-  나머지를 "카페"로 잘못 라벨링하면 코스 추천이 엉뚱한 곳을 붙인다.
+  코스에 쓸 만한 업태(커피숍·다방·전통찻집·떡카페·키즈카페)만 골랐다.
+- orgCode에 "_ALL"을 붙이면(예: 6110000_ALL) 그 시/도 전체를 한 번에 받을 수 있고,
+  각 행에는 자기 시군구 코드(개방자치단체코드)가 그대로 들어있다 — 그래서 245개
+  시군구를 하나씩 받을 필요 없이 17개 시/도 단위로만 받고, 파싱 단계에서
+  행 단위로 실제 시군구에 재배정한다. (서울 전체 실측: 537,140행, 161MB)
+- 지역 키는 "seoul_gangnam"처럼 사람이 영문 이름을 짓는 대신, 원래 행정 코드를
+  그대로 쓴다(예: "3220000") — 245개 넘는 시군구 이름을 전부 손으로 로마자화하면
+  실수하기 쉽고, 코드는 공식 값이라 절대 안 겹친다. 한글 이름은 region_names.json에
+  따로 둔다.
 """
 from __future__ import annotations  # 로컬 Python 3.9에서도 `set[str] | None` 표기 쓰려고
 
@@ -33,41 +40,30 @@ LIST_PAGE_URL = "https://file.localdata.go.kr/file/{slug}/info"
 DOWNLOAD_URL = "https://file.localdata.go.kr/file/download/{slug}/info"
 ACTIVE_STATUS = "영업/정상"
 
-# 서울 25개 자치구. orgCode는 공공데이터포털 지역 선택 드롭다운에서 실측 확인
-# (2026-08-08) — 3000000부터 10000씩 규칙적으로 증가하지만, 임의로 계산하지 않고
-# 실제 드롭다운 옵션 값을 그대로 옮겼다.
-REGIONS = {
-    "seoul_jongno": "3000000",
-    "seoul_junggu": "3010000",
-    "seoul_yongsan": "3020000",
-    "seoul_seongdong": "3030000",
-    "seoul_gwangjin": "3040000",
-    "seoul_dongdaemun": "3050000",
-    "seoul_jungnang": "3060000",
-    "seoul_seongbuk": "3070000",
-    "seoul_gangbuk": "3080000",
-    "seoul_dobong": "3090000",
-    "seoul_nowon": "3100000",
-    "seoul_eunpyeong": "3110000",
-    "seoul_seodaemun": "3120000",
-    "seoul_mapo": "3130000",
-    "seoul_yangcheon": "3140000",
-    "seoul_gangseo": "3150000",
-    "seoul_guro": "3160000",
-    "seoul_geumcheon": "3170000",
-    "seoul_yeongdeungpo": "3180000",
-    "seoul_dongjak": "3190000",
-    "seoul_gwanak": "3200000",
-    "seoul_seocho": "3210000",
-    "seoul_gangnam": "3220000",  # 앱의 DEFAULT_REGION과 일치 (MainActivity.kt 참고)
-    "seoul_songpa": "3230000",
-    "seoul_gangdong": "3240000",
+# 17개 시/도. "_ALL"을 쓰면 그 시/도 전체를 한 번에 받는다.
+# 공공데이터포털 지역 선택 드롭다운에서 실측 확인(2026-08-08), 임의로 만들지 않았다.
+UPPER_REGIONS = {
+    "서울특별시": "6110000_ALL",
+    "부산광역시": "6260000_ALL",
+    "대구광역시": "6270000_ALL",
+    "인천광역시": "6280000_ALL",
+    "전남광주통합특별시": "6130000_ALL",
+    "대전광역시": "6300000_ALL",
+    "울산광역시": "6310000_ALL",
+    "세종특별자치시": "5690000_ALL",
+    "경기도": "6410000_ALL",
+    "강원특별자치도": "6530000_ALL",
+    "충청북도": "6430000_ALL",
+    "충청남도": "6440000_ALL",
+    "전북특별자치도": "6540000_ALL",
+    "경상북도": "6470000_ALL",
+    "경상남도": "6480000_ALL",
+    "제주특별자치도": "6500000_ALL",
 }
 
-# 지역 사이에 두는 대기시간(초). 다운로드 요청을 25개 지역 × 2개 카테고리 = 50번
-# 연달아 보내면 상대 서버에 부담을 준다 — 실측으로 확인된 간헐적 타임아웃(재시도 로직 참고)도
-# 요청이 몰릴 때 더 자주 날 걸로 보여 여유를 둔다.
-REGION_DELAY_SECONDS = 3
+# 시/도 사이에 두는 대기시간(초). 17개 시/도 × 2개 카테고리 = 34번 요청 —
+# 서울 하나만 받아도 161MB짜리 응답이라 상대 서버 부담이 이미 크다.
+REGION_DELAY_SECONDS = 5
 
 # slug는 실제 사이트에서 카테고리 선택 시 열리는 하위 페이지 경로에서 확인했다.
 # types가 None이면 영업상태만 보고 전부 채택, 아니면 업태구분명이 목록에 있는 것만.
@@ -85,12 +81,12 @@ def _fetch_once(slug: str, org_code: str) -> bytes:
     list_url = LIST_PAGE_URL.format(slug=slug)
     # 1단계: 목록 페이지 방문 → 세션 쿠키 확보 (이게 없으면 2단계가 403)
     session.get(list_url, headers=headers, timeout=30)
-    # 2단계: 실제 다운로드
+    # 2단계: 실제 다운로드. 시/도 전체 다운로드는 응답이 수백MB일 수 있어 넉넉히 잡는다.
     resp = session.get(
         DOWNLOAD_URL.format(slug=slug),
         params={"orgCode": org_code},
         headers={**headers, "Referer": list_url},
-        timeout=60,
+        timeout=300,
     )
     resp.raise_for_status()
     if len(resp.content) < 1000:
@@ -105,16 +101,17 @@ def fetch_csv(slug: str, org_code: str) -> str:
     try:
         raw = _fetch_once(slug, org_code)
     except requests.exceptions.RequestException as e:
-        print(f"1차 시도 실패({e}), 10초 뒤 1회 재시도...", file=sys.stderr)
-        time.sleep(10)
+        print(f"1차 시도 실패({e}), 15초 뒤 1회 재시도...", file=sys.stderr)
+        time.sleep(15)
         raw = _fetch_once(slug, org_code)
     return raw.decode("euc-kr", errors="ignore")
 
 
-def parse_places(csv_text: str, region: str, category: str, types: set[str] | None) -> list[dict]:
+def parse_places(csv_text: str, category: str, types: set[str] | None) -> dict[str, list[dict]]:
+    """행마다 자기 시군구 코드(개방자치단체코드)로 결과를 나눠서 돌려준다."""
     reader = csv.DictReader(io.StringIO(csv_text))
-    out = []
-    seen_ids = set()
+    by_region: dict[str, list[dict]] = {}
+    seen_ids: set[str] = set()
     for row in reader:
         if row.get("영업상태명") != ACTIVE_STATUS:
             continue
@@ -126,19 +123,20 @@ def parse_places(csv_text: str, region: str, category: str, types: set[str] | No
             continue
         place_id = row.get("관리번호", "").strip()
         name = row.get("사업장명", "").strip()
+        region_code = row.get("개방자치단체코드", "").strip()
         # 도로명주소를 우선 쓴다 — 카카오톡 위치 템플릿 등 외부 공유에 표준 주소가 더 잘 맞는다.
         # 도로명주소가 비어있는 옛날 데이터는 지번주소로 대체한다.
         address = (row.get("도로명주소") or "").strip() or (row.get("지번주소") or "").strip()
-        if not place_id or not name or not address or place_id in seen_ids:
+        if not place_id or not name or not address or not region_code or place_id in seen_ids:
             continue
         seen_ids.add(place_id)
         try:
             lng, lat = _transformer.transform(float(x), float(y))
         except ValueError:
             continue
-        out.append({
+        by_region.setdefault(region_code, []).append({
             "id": place_id,
-            "region": region,
+            "region": region_code,
             "category": category,
             "name": name,
             "address": address,
@@ -148,7 +146,7 @@ def parse_places(csv_text: str, region: str, category: str, types: set[str] | No
             "traits": 0,
             "verifiedClear": 0,
         })
-    return out
+    return by_region
 
 
 def write_region(region: str, places: list[dict], out_dir: Path) -> dict:
@@ -170,17 +168,18 @@ def bump_version(existing: dict, region: str, new_sha: str) -> int:
     return (prev["v"] + 1) if prev else 1
 
 
-def fetch_region(region: str, org_code: str) -> list[dict]:
-    all_places: list[dict] = []
+def fetch_upper_region(org_code: str) -> dict[str, list[dict]]:
+    """시/도 하나를 카테고리별로 받아서, 실제 시군구 코드별로 합쳐서 돌려준다."""
+    combined: dict[str, list[dict]] = {}
     for category, spec in CATEGORIES.items():
-        print(f"[{region}/{category}] 다운로드 중 (slug={spec['slug']}, orgCode={org_code})...", file=sys.stderr)
+        print(f"  [{category}] 다운로드 중 (slug={spec['slug']}, orgCode={org_code})...", file=sys.stderr)
         csv_text = fetch_csv(spec["slug"], org_code)
-        places = parse_places(csv_text, region, category, spec["types"])
-        print(f"[{region}/{category}] {len(places)}건", file=sys.stderr)
-        all_places.extend(places)
-    if len(all_places) < 100:
-        raise RuntimeError(f"결과가 {len(all_places)}건뿐 — 파싱이 깨졌을 가능성")
-    return all_places
+        by_region = parse_places(csv_text, category, spec["types"])
+        total = sum(len(v) for v in by_region.values())
+        print(f"  [{category}] {total}건, {len(by_region)}개 시군구", file=sys.stderr)
+        for region_code, places in by_region.items():
+            combined.setdefault(region_code, []).extend(places)
+    return combined
 
 
 def main():
@@ -190,31 +189,38 @@ def main():
 
     regions_meta = dict(existing.get("regions", {}))
     failed: list[str] = []
-    region_items = list(REGIONS.items())
+    upper_items = list(UPPER_REGIONS.items())
 
-    for i, (region, org_code) in enumerate(region_items):
-        # 지역 하나가 실패해도(사이트 타임아웃 등) 나머지 24개는 계속 진행한다 —
-        # 25곳 중 1곳 때문에 전체 갱신을 통째로 실패시키는 건 손해가 크다.
-        # 실패한 지역은 이전 버전 데이터를 그대로 두고(regions_meta에서 안 건드림) 다음에 재시도한다.
+    for i, (upper_name, upper_code) in enumerate(upper_items):
+        print(f"[{upper_name}] 시작 (orgCode={upper_code})", file=sys.stderr)
+        # 시/도 하나가 실패해도(사이트 타임아웃 등) 나머지는 계속 진행한다 —
+        # 17곳 중 1곳 때문에 전체 갱신을 통째로 실패시키는 건 손해가 크다.
         try:
-            all_places = fetch_region(region, org_code)
+            combined = fetch_upper_region(upper_code)
         except Exception as e:
-            print(f"[{region}] 실패, 건너뜀: {e}", file=sys.stderr)
-            failed.append(region)
+            print(f"[{upper_name}] 실패, 건너뜀: {e}", file=sys.stderr)
+            failed.append(upper_name)
             continue
 
-        meta = write_region(region, all_places, out_dir)
-        v = bump_version(existing, region, meta["sha256"])
-        regions_meta[region] = {"v": v, "sha256": meta["sha256"], "bytes": meta["bytes"]}
-        print(f"[{region}] 합계 {meta['count']}건, v{v}, {meta['bytes']:,} bytes", file=sys.stderr)
+        if not combined:
+            print(f"[{upper_name}] 결과 0건 — 파싱이 깨졌을 가능성, 건너뜀", file=sys.stderr)
+            failed.append(upper_name)
+            continue
 
-        if i < len(region_items) - 1:
+        for region_code, places in combined.items():
+            meta = write_region(region_code, places, out_dir)
+            v = bump_version(existing, region_code, meta["sha256"])
+            regions_meta[region_code] = {"v": v, "sha256": meta["sha256"], "bytes": meta["bytes"]}
+
+        print(f"[{upper_name}] 완료: {len(combined)}개 시군구, 합계 {sum(len(v) for v in combined.values()):,}건", file=sys.stderr)
+
+        if i < len(upper_items) - 1:
             time.sleep(REGION_DELAY_SECONDS)
 
     version_path.write_text(json.dumps({"schema": 1, "regions": regions_meta}, ensure_ascii=False, indent=2) + "\n")
 
     if failed:
-        print(f"\n실패한 지역 {len(failed)}개: {', '.join(failed)}", file=sys.stderr)
+        print(f"\n실패한 시/도 {len(failed)}개: {', '.join(failed)}", file=sys.stderr)
         sys.exit(1)  # CI에서 실패를 놓치지 않게 — 단, 성공한 지역의 데이터는 이미 저장됐다
 
 
