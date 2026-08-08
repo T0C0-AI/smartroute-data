@@ -1,0 +1,1132 @@
+{
+  "3220000": {
+    "areaCode": "1",
+    "sigunguCode": "1",
+    "name": "서울강남구"
+  },
+  "3240000": {
+    "areaCode": "1",
+    "sigunguCode": "2",
+    "name": "서울강동구"
+  },
+  "3080000": {
+    "areaCode": "1",
+    "sigunguCode": "3",
+    "name": "서울강북구"
+  },
+  "3150000": {
+    "areaCode": "1",
+    "sigunguCode": "4",
+    "name": "서울강서구"
+  },
+  "3200000": {
+    "areaCode": "1",
+    "sigunguCode": "5",
+    "name": "서울관악구"
+  },
+  "3040000": {
+    "areaCode": "1",
+    "sigunguCode": "6",
+    "name": "서울광진구"
+  },
+  "3160000": {
+    "areaCode": "1",
+    "sigunguCode": "7",
+    "name": "서울구로구"
+  },
+  "3170000": {
+    "areaCode": "1",
+    "sigunguCode": "8",
+    "name": "서울금천구"
+  },
+  "3100000": {
+    "areaCode": "1",
+    "sigunguCode": "9",
+    "name": "서울노원구"
+  },
+  "3090000": {
+    "areaCode": "1",
+    "sigunguCode": "10",
+    "name": "서울도봉구"
+  },
+  "3050000": {
+    "areaCode": "1",
+    "sigunguCode": "11",
+    "name": "서울동대문구"
+  },
+  "3190000": {
+    "areaCode": "1",
+    "sigunguCode": "12",
+    "name": "서울동작구"
+  },
+  "3130000": {
+    "areaCode": "1",
+    "sigunguCode": "13",
+    "name": "서울마포구"
+  },
+  "3120000": {
+    "areaCode": "1",
+    "sigunguCode": "14",
+    "name": "서울서대문구"
+  },
+  "3210000": {
+    "areaCode": "1",
+    "sigunguCode": "15",
+    "name": "서울서초구"
+  },
+  "3030000": {
+    "areaCode": "1",
+    "sigunguCode": "16",
+    "name": "서울성동구"
+  },
+  "3070000": {
+    "areaCode": "1",
+    "sigunguCode": "17",
+    "name": "서울성북구"
+  },
+  "3230000": {
+    "areaCode": "1",
+    "sigunguCode": "18",
+    "name": "서울송파구"
+  },
+  "3140000": {
+    "areaCode": "1",
+    "sigunguCode": "19",
+    "name": "서울양천구"
+  },
+  "3180000": {
+    "areaCode": "1",
+    "sigunguCode": "20",
+    "name": "서울영등포구"
+  },
+  "3020000": {
+    "areaCode": "1",
+    "sigunguCode": "21",
+    "name": "서울용산구"
+  },
+  "3110000": {
+    "areaCode": "1",
+    "sigunguCode": "22",
+    "name": "서울은평구"
+  },
+  "3000000": {
+    "areaCode": "1",
+    "sigunguCode": "23",
+    "name": "서울종로구"
+  },
+  "3010000": {
+    "areaCode": "1",
+    "sigunguCode": "24",
+    "name": "서울중구"
+  },
+  "3060000": {
+    "areaCode": "1",
+    "sigunguCode": "25",
+    "name": "서울중랑구"
+  },
+  "3570000": {
+    "areaCode": "2",
+    "sigunguCode": "1",
+    "name": "인천강화군"
+  },
+  "3550000": {
+    "areaCode": "2",
+    "sigunguCode": "2",
+    "name": "인천계양구"
+  },
+  "3510500": {
+    "areaCode": "2",
+    "sigunguCode": "3",
+    "name": "인천미추홀구"
+  },
+  "3530000": {
+    "areaCode": "2",
+    "sigunguCode": "4",
+    "name": "인천남동구"
+  },
+  "3540000": {
+    "areaCode": "2",
+    "sigunguCode": "6",
+    "name": "인천부평구"
+  },
+  "3520000": {
+    "areaCode": "2",
+    "sigunguCode": "8",
+    "name": "인천연수구"
+  },
+  "3580000": {
+    "areaCode": "2",
+    "sigunguCode": "9",
+    "name": "인천옹진군"
+  },
+  "3680000": {
+    "areaCode": "3",
+    "sigunguCode": "1",
+    "name": "대전대덕구"
+  },
+  "3640000": {
+    "areaCode": "3",
+    "sigunguCode": "2",
+    "name": "대전동구"
+  },
+  "3660000": {
+    "areaCode": "3",
+    "sigunguCode": "3",
+    "name": "대전서구"
+  },
+  "3670000": {
+    "areaCode": "3",
+    "sigunguCode": "4",
+    "name": "대전유성구"
+  },
+  "3650000": {
+    "areaCode": "3",
+    "sigunguCode": "5",
+    "name": "대전중구"
+  },
+  "3440000": {
+    "areaCode": "4",
+    "sigunguCode": "1",
+    "name": "대구남구"
+  },
+  "3470000": {
+    "areaCode": "4",
+    "sigunguCode": "2",
+    "name": "대구달서구"
+  },
+  "3480000": {
+    "areaCode": "4",
+    "sigunguCode": "3",
+    "name": "대구달성군"
+  },
+  "3420000": {
+    "areaCode": "4",
+    "sigunguCode": "4",
+    "name": "대구동구"
+  },
+  "3450000": {
+    "areaCode": "4",
+    "sigunguCode": "5",
+    "name": "대구북구"
+  },
+  "3430000": {
+    "areaCode": "4",
+    "sigunguCode": "6",
+    "name": "대구서구"
+  },
+  "3460000": {
+    "areaCode": "4",
+    "sigunguCode": "7",
+    "name": "대구수성구"
+  },
+  "3410000": {
+    "areaCode": "4",
+    "sigunguCode": "8",
+    "name": "대구중구"
+  },
+  "5141000": {
+    "areaCode": "4",
+    "sigunguCode": "9",
+    "name": "대구군위군"
+  },
+  "5825000": {
+    "areaCode": "5",
+    "sigunguCode": "1",
+    "name": "전남광주광산구"
+  },
+  "5815000": {
+    "areaCode": "5",
+    "sigunguCode": "2",
+    "name": "전남광주남구"
+  },
+  "5805000": {
+    "areaCode": "5",
+    "sigunguCode": "3",
+    "name": "전남광주동구"
+  },
+  "5820000": {
+    "areaCode": "5",
+    "sigunguCode": "4",
+    "name": "전남광주북구"
+  },
+  "5810000": {
+    "areaCode": "5",
+    "sigunguCode": "5",
+    "name": "전남광주서구"
+  },
+  "3360000": {
+    "areaCode": "6",
+    "sigunguCode": "1",
+    "name": "부산강서구"
+  },
+  "3350000": {
+    "areaCode": "6",
+    "sigunguCode": "2",
+    "name": "부산금정구"
+  },
+  "3400000": {
+    "areaCode": "6",
+    "sigunguCode": "3",
+    "name": "부산기장군"
+  },
+  "3310000": {
+    "areaCode": "6",
+    "sigunguCode": "4",
+    "name": "부산남구"
+  },
+  "3270000": {
+    "areaCode": "6",
+    "sigunguCode": "5",
+    "name": "부산동구"
+  },
+  "3300000": {
+    "areaCode": "6",
+    "sigunguCode": "6",
+    "name": "부산동래구"
+  },
+  "3290000": {
+    "areaCode": "6",
+    "sigunguCode": "7",
+    "name": "부산진구"
+  },
+  "3320000": {
+    "areaCode": "6",
+    "sigunguCode": "8",
+    "name": "부산북구"
+  },
+  "3390000": {
+    "areaCode": "6",
+    "sigunguCode": "9",
+    "name": "부산사상구"
+  },
+  "3340000": {
+    "areaCode": "6",
+    "sigunguCode": "10",
+    "name": "부산사하구"
+  },
+  "3260000": {
+    "areaCode": "6",
+    "sigunguCode": "11",
+    "name": "부산서구"
+  },
+  "3380000": {
+    "areaCode": "6",
+    "sigunguCode": "12",
+    "name": "부산수영구"
+  },
+  "3370000": {
+    "areaCode": "6",
+    "sigunguCode": "13",
+    "name": "부산연제구"
+  },
+  "3280000": {
+    "areaCode": "6",
+    "sigunguCode": "14",
+    "name": "부산영도구"
+  },
+  "3250000": {
+    "areaCode": "6",
+    "sigunguCode": "15",
+    "name": "부산중구"
+  },
+  "3330000": {
+    "areaCode": "6",
+    "sigunguCode": "16",
+    "name": "부산해운대구"
+  },
+  "3690000": {
+    "areaCode": "7",
+    "sigunguCode": "1",
+    "name": "울산중구"
+  },
+  "3700000": {
+    "areaCode": "7",
+    "sigunguCode": "2",
+    "name": "울산남구"
+  },
+  "3710000": {
+    "areaCode": "7",
+    "sigunguCode": "3",
+    "name": "울산동구"
+  },
+  "3720000": {
+    "areaCode": "7",
+    "sigunguCode": "4",
+    "name": "울산북구"
+  },
+  "3730000": {
+    "areaCode": "7",
+    "sigunguCode": "5",
+    "name": "울산울주군"
+  },
+  "5690000": {
+    "areaCode": "8",
+    "sigunguCode": "1",
+    "name": "세종특별자치시 본청"
+  },
+  "4160000": {
+    "areaCode": "31",
+    "sigunguCode": "1",
+    "name": "경기가평군"
+  },
+  "3940000": {
+    "areaCode": "31",
+    "sigunguCode": "2",
+    "name": "경기고양시"
+  },
+  "3970000": {
+    "areaCode": "31",
+    "sigunguCode": "3",
+    "name": "경기과천시"
+  },
+  "3900000": {
+    "areaCode": "31",
+    "sigunguCode": "4",
+    "name": "경기광명시"
+  },
+  "5540000": {
+    "areaCode": "31",
+    "sigunguCode": "5",
+    "name": "경기광주시"
+  },
+  "3980000": {
+    "areaCode": "31",
+    "sigunguCode": "6",
+    "name": "경기구리시"
+  },
+  "4020000": {
+    "areaCode": "31",
+    "sigunguCode": "7",
+    "name": "경기군포시"
+  },
+  "4090000": {
+    "areaCode": "31",
+    "sigunguCode": "8",
+    "name": "경기김포시"
+  },
+  "3990000": {
+    "areaCode": "31",
+    "sigunguCode": "9",
+    "name": "경기남양주시"
+  },
+  "3920000": {
+    "areaCode": "31",
+    "sigunguCode": "10",
+    "name": "경기동두천시"
+  },
+  "3860000": {
+    "areaCode": "31",
+    "sigunguCode": "11",
+    "name": "경기부천시"
+  },
+  "3780000": {
+    "areaCode": "31",
+    "sigunguCode": "12",
+    "name": "경기성남시"
+  },
+  "3740000": {
+    "areaCode": "31",
+    "sigunguCode": "13",
+    "name": "경기수원시"
+  },
+  "4010000": {
+    "areaCode": "31",
+    "sigunguCode": "14",
+    "name": "경기시흥시"
+  },
+  "3930000": {
+    "areaCode": "31",
+    "sigunguCode": "15",
+    "name": "경기안산시"
+  },
+  "4080000": {
+    "areaCode": "31",
+    "sigunguCode": "16",
+    "name": "경기안성시"
+  },
+  "3830000": {
+    "areaCode": "31",
+    "sigunguCode": "17",
+    "name": "경기안양시"
+  },
+  "5590000": {
+    "areaCode": "31",
+    "sigunguCode": "18",
+    "name": "경기양주시"
+  },
+  "4170000": {
+    "areaCode": "31",
+    "sigunguCode": "19",
+    "name": "경기양평군"
+  },
+  "5700000": {
+    "areaCode": "31",
+    "sigunguCode": "20",
+    "name": "경기여주시"
+  },
+  "4140000": {
+    "areaCode": "31",
+    "sigunguCode": "21",
+    "name": "경기연천군"
+  },
+  "4000000": {
+    "areaCode": "31",
+    "sigunguCode": "22",
+    "name": "경기오산시"
+  },
+  "4050000": {
+    "areaCode": "31",
+    "sigunguCode": "23",
+    "name": "경기용인시"
+  },
+  "4030000": {
+    "areaCode": "31",
+    "sigunguCode": "24",
+    "name": "경기의왕시"
+  },
+  "3820000": {
+    "areaCode": "31",
+    "sigunguCode": "25",
+    "name": "경기의정부시"
+  },
+  "4070000": {
+    "areaCode": "31",
+    "sigunguCode": "26",
+    "name": "경기이천시"
+  },
+  "4060000": {
+    "areaCode": "31",
+    "sigunguCode": "27",
+    "name": "경기파주시"
+  },
+  "3910000": {
+    "areaCode": "31",
+    "sigunguCode": "28",
+    "name": "경기평택시"
+  },
+  "5600000": {
+    "areaCode": "31",
+    "sigunguCode": "29",
+    "name": "경기포천시"
+  },
+  "4040000": {
+    "areaCode": "31",
+    "sigunguCode": "30",
+    "name": "경기하남시"
+  },
+  "5530000": {
+    "areaCode": "31",
+    "sigunguCode": "31",
+    "name": "경기화성시"
+  },
+  "4201000": {
+    "areaCode": "32",
+    "sigunguCode": "1",
+    "name": "강원강릉시"
+  },
+  "4341000": {
+    "areaCode": "32",
+    "sigunguCode": "2",
+    "name": "강원고성군"
+  },
+  "4211000": {
+    "areaCode": "32",
+    "sigunguCode": "3",
+    "name": "강원동해시"
+  },
+  "4241000": {
+    "areaCode": "32",
+    "sigunguCode": "4",
+    "name": "강원삼척시"
+  },
+  "4231000": {
+    "areaCode": "32",
+    "sigunguCode": "5",
+    "name": "강원속초시"
+  },
+  "4321000": {
+    "areaCode": "32",
+    "sigunguCode": "6",
+    "name": "강원양구군"
+  },
+  "4351000": {
+    "areaCode": "32",
+    "sigunguCode": "7",
+    "name": "강원양양군"
+  },
+  "4271000": {
+    "areaCode": "32",
+    "sigunguCode": "8",
+    "name": "강원영월군"
+  },
+  "4191000": {
+    "areaCode": "32",
+    "sigunguCode": "9",
+    "name": "강원원주시"
+  },
+  "4331000": {
+    "areaCode": "32",
+    "sigunguCode": "10",
+    "name": "강원인제군"
+  },
+  "4291000": {
+    "areaCode": "32",
+    "sigunguCode": "11",
+    "name": "강원정선군"
+  },
+  "4301000": {
+    "areaCode": "32",
+    "sigunguCode": "12",
+    "name": "강원철원군"
+  },
+  "4181000": {
+    "areaCode": "32",
+    "sigunguCode": "13",
+    "name": "강원춘천시"
+  },
+  "4221000": {
+    "areaCode": "32",
+    "sigunguCode": "14",
+    "name": "강원태백시"
+  },
+  "4281000": {
+    "areaCode": "32",
+    "sigunguCode": "15",
+    "name": "강원평창군"
+  },
+  "4251000": {
+    "areaCode": "32",
+    "sigunguCode": "16",
+    "name": "강원홍천군"
+  },
+  "4311000": {
+    "areaCode": "32",
+    "sigunguCode": "17",
+    "name": "강원화천군"
+  },
+  "4261000": {
+    "areaCode": "32",
+    "sigunguCode": "18",
+    "name": "강원횡성군"
+  },
+  "4460000": {
+    "areaCode": "33",
+    "sigunguCode": "1",
+    "name": "충북괴산군"
+  },
+  "4480000": {
+    "areaCode": "33",
+    "sigunguCode": "2",
+    "name": "충북단양군"
+  },
+  "4420000": {
+    "areaCode": "33",
+    "sigunguCode": "3",
+    "name": "충북보은군"
+  },
+  "4440000": {
+    "areaCode": "33",
+    "sigunguCode": "4",
+    "name": "충북영동군"
+  },
+  "4430000": {
+    "areaCode": "33",
+    "sigunguCode": "5",
+    "name": "충북옥천군"
+  },
+  "4470000": {
+    "areaCode": "33",
+    "sigunguCode": "6",
+    "name": "충북음성군"
+  },
+  "4400000": {
+    "areaCode": "33",
+    "sigunguCode": "7",
+    "name": "충북제천시"
+  },
+  "4450000": {
+    "areaCode": "33",
+    "sigunguCode": "8",
+    "name": "충북진천군"
+  },
+  "5710000": {
+    "areaCode": "33",
+    "sigunguCode": "10",
+    "name": "충북청주시"
+  },
+  "4390000": {
+    "areaCode": "33",
+    "sigunguCode": "11",
+    "name": "충북충주시"
+  },
+  "5570000": {
+    "areaCode": "33",
+    "sigunguCode": "12",
+    "name": "충북증평군"
+  },
+  "4500000": {
+    "areaCode": "34",
+    "sigunguCode": "1",
+    "name": "충남공주시"
+  },
+  "4550000": {
+    "areaCode": "34",
+    "sigunguCode": "2",
+    "name": "충남금산군"
+  },
+  "4540000": {
+    "areaCode": "34",
+    "sigunguCode": "3",
+    "name": "충남논산시"
+  },
+  "5680000": {
+    "areaCode": "34",
+    "sigunguCode": "4",
+    "name": "충남당진시"
+  },
+  "4510000": {
+    "areaCode": "34",
+    "sigunguCode": "5",
+    "name": "충남보령시"
+  },
+  "4570000": {
+    "areaCode": "34",
+    "sigunguCode": "6",
+    "name": "충남부여군"
+  },
+  "4530000": {
+    "areaCode": "34",
+    "sigunguCode": "7",
+    "name": "충남서산시"
+  },
+  "4580000": {
+    "areaCode": "34",
+    "sigunguCode": "8",
+    "name": "충남서천군"
+  },
+  "4520000": {
+    "areaCode": "34",
+    "sigunguCode": "9",
+    "name": "충남아산시"
+  },
+  "4610000": {
+    "areaCode": "34",
+    "sigunguCode": "11",
+    "name": "충남예산군"
+  },
+  "4490000": {
+    "areaCode": "34",
+    "sigunguCode": "12",
+    "name": "충남천안시"
+  },
+  "4590000": {
+    "areaCode": "34",
+    "sigunguCode": "13",
+    "name": "충남청양군"
+  },
+  "4620000": {
+    "areaCode": "34",
+    "sigunguCode": "14",
+    "name": "충남태안군"
+  },
+  "4600000": {
+    "areaCode": "34",
+    "sigunguCode": "15",
+    "name": "충남홍성군"
+  },
+  "5580000": {
+    "areaCode": "34",
+    "sigunguCode": "16",
+    "name": "충남계룡시"
+  },
+  "5130000": {
+    "areaCode": "35",
+    "sigunguCode": "1",
+    "name": "경북경산시"
+  },
+  "5050000": {
+    "areaCode": "35",
+    "sigunguCode": "2",
+    "name": "경북경주시"
+  },
+  "5200000": {
+    "areaCode": "35",
+    "sigunguCode": "3",
+    "name": "경북고령군"
+  },
+  "5080000": {
+    "areaCode": "35",
+    "sigunguCode": "4",
+    "name": "경북구미시"
+  },
+  "5060000": {
+    "areaCode": "35",
+    "sigunguCode": "6",
+    "name": "경북김천시"
+  },
+  "5120000": {
+    "areaCode": "35",
+    "sigunguCode": "7",
+    "name": "경북문경시"
+  },
+  "5240000": {
+    "areaCode": "35",
+    "sigunguCode": "8",
+    "name": "경북봉화군"
+  },
+  "5110000": {
+    "areaCode": "35",
+    "sigunguCode": "9",
+    "name": "경북상주시"
+  },
+  "5210000": {
+    "areaCode": "35",
+    "sigunguCode": "10",
+    "name": "경북성주군"
+  },
+  "5070000": {
+    "areaCode": "35",
+    "sigunguCode": "11",
+    "name": "경북안동시"
+  },
+  "5180000": {
+    "areaCode": "35",
+    "sigunguCode": "12",
+    "name": "경북영덕군"
+  },
+  "5170000": {
+    "areaCode": "35",
+    "sigunguCode": "13",
+    "name": "경북영양군"
+  },
+  "5090000": {
+    "areaCode": "35",
+    "sigunguCode": "14",
+    "name": "경북영주시"
+  },
+  "5100000": {
+    "areaCode": "35",
+    "sigunguCode": "15",
+    "name": "경북영천시"
+  },
+  "5230000": {
+    "areaCode": "35",
+    "sigunguCode": "16",
+    "name": "경북예천군"
+  },
+  "5260000": {
+    "areaCode": "35",
+    "sigunguCode": "17",
+    "name": "경북울릉군"
+  },
+  "5250000": {
+    "areaCode": "35",
+    "sigunguCode": "18",
+    "name": "경북울진군"
+  },
+  "5150000": {
+    "areaCode": "35",
+    "sigunguCode": "19",
+    "name": "경북의성군"
+  },
+  "5190000": {
+    "areaCode": "35",
+    "sigunguCode": "20",
+    "name": "경북청도군"
+  },
+  "5160000": {
+    "areaCode": "35",
+    "sigunguCode": "21",
+    "name": "경북청송군"
+  },
+  "5220000": {
+    "areaCode": "35",
+    "sigunguCode": "22",
+    "name": "경북칠곡군"
+  },
+  "5020000": {
+    "areaCode": "35",
+    "sigunguCode": "23",
+    "name": "경북포항시"
+  },
+  "5370000": {
+    "areaCode": "36",
+    "sigunguCode": "1",
+    "name": "경남거제시"
+  },
+  "5470000": {
+    "areaCode": "36",
+    "sigunguCode": "2",
+    "name": "경남거창군"
+  },
+  "5420000": {
+    "areaCode": "36",
+    "sigunguCode": "3",
+    "name": "경남고성군"
+  },
+  "5350000": {
+    "areaCode": "36",
+    "sigunguCode": "4",
+    "name": "경남김해시"
+  },
+  "5430000": {
+    "areaCode": "36",
+    "sigunguCode": "5",
+    "name": "경남남해군"
+  },
+  "5360000": {
+    "areaCode": "36",
+    "sigunguCode": "7",
+    "name": "경남밀양시"
+  },
+  "5340000": {
+    "areaCode": "36",
+    "sigunguCode": "8",
+    "name": "경남사천시"
+  },
+  "5450000": {
+    "areaCode": "36",
+    "sigunguCode": "9",
+    "name": "경남산청군"
+  },
+  "5380000": {
+    "areaCode": "36",
+    "sigunguCode": "10",
+    "name": "경남양산시"
+  },
+  "5390000": {
+    "areaCode": "36",
+    "sigunguCode": "12",
+    "name": "경남의령군"
+  },
+  "5310000": {
+    "areaCode": "36",
+    "sigunguCode": "13",
+    "name": "경남진주시"
+  },
+  "5410000": {
+    "areaCode": "36",
+    "sigunguCode": "15",
+    "name": "경남창녕군"
+  },
+  "5670000": {
+    "areaCode": "36",
+    "sigunguCode": "16",
+    "name": "경남창원시"
+  },
+  "5330000": {
+    "areaCode": "36",
+    "sigunguCode": "17",
+    "name": "경남통영시"
+  },
+  "5440000": {
+    "areaCode": "36",
+    "sigunguCode": "18",
+    "name": "경남하동군"
+  },
+  "5400000": {
+    "areaCode": "36",
+    "sigunguCode": "19",
+    "name": "경남함안군"
+  },
+  "5460000": {
+    "areaCode": "36",
+    "sigunguCode": "20",
+    "name": "경남함양군"
+  },
+  "5480000": {
+    "areaCode": "36",
+    "sigunguCode": "21",
+    "name": "경남합천군"
+  },
+  "4781000": {
+    "areaCode": "37",
+    "sigunguCode": "1",
+    "name": "전북고창군"
+  },
+  "4671000": {
+    "areaCode": "37",
+    "sigunguCode": "2",
+    "name": "전북군산시"
+  },
+  "4711000": {
+    "areaCode": "37",
+    "sigunguCode": "3",
+    "name": "전북김제시"
+  },
+  "4701000": {
+    "areaCode": "37",
+    "sigunguCode": "4",
+    "name": "전북남원시"
+  },
+  "4741000": {
+    "areaCode": "37",
+    "sigunguCode": "5",
+    "name": "전북무주군"
+  },
+  "4791000": {
+    "areaCode": "37",
+    "sigunguCode": "6",
+    "name": "전북부안군"
+  },
+  "4771000": {
+    "areaCode": "37",
+    "sigunguCode": "7",
+    "name": "전북순창군"
+  },
+  "4721000": {
+    "areaCode": "37",
+    "sigunguCode": "8",
+    "name": "전북완주군"
+  },
+  "4681000": {
+    "areaCode": "37",
+    "sigunguCode": "9",
+    "name": "전북익산시"
+  },
+  "4761000": {
+    "areaCode": "37",
+    "sigunguCode": "10",
+    "name": "전북임실군"
+  },
+  "4751000": {
+    "areaCode": "37",
+    "sigunguCode": "11",
+    "name": "전북장수군"
+  },
+  "4641000": {
+    "areaCode": "37",
+    "sigunguCode": "12",
+    "name": "전북전주시"
+  },
+  "4691000": {
+    "areaCode": "37",
+    "sigunguCode": "13",
+    "name": "전북정읍시"
+  },
+  "4731000": {
+    "areaCode": "37",
+    "sigunguCode": "14",
+    "name": "전북진안군"
+  },
+  "5865000": {
+    "areaCode": "38",
+    "sigunguCode": "1",
+    "name": "전남광주강진군"
+  },
+  "5845000": {
+    "areaCode": "38",
+    "sigunguCode": "2",
+    "name": "전남광주고흥군"
+  },
+  "5835000": {
+    "areaCode": "38",
+    "sigunguCode": "3",
+    "name": "전남광주곡성군"
+  },
+  "5800000": {
+    "areaCode": "38",
+    "sigunguCode": "4",
+    "name": "전남광주광양시"
+  },
+  "5840000": {
+    "areaCode": "38",
+    "sigunguCode": "5",
+    "name": "전남광주구례군"
+  },
+  "5795000": {
+    "areaCode": "38",
+    "sigunguCode": "6",
+    "name": "전남광주나주시"
+  },
+  "5830000": {
+    "areaCode": "38",
+    "sigunguCode": "7",
+    "name": "전남광주담양군"
+  },
+  "5780000": {
+    "areaCode": "38",
+    "sigunguCode": "8",
+    "name": "전남광주목포시"
+  },
+  "5880000": {
+    "areaCode": "38",
+    "sigunguCode": "9",
+    "name": "전남광주무안군"
+  },
+  "5850000": {
+    "areaCode": "38",
+    "sigunguCode": "10",
+    "name": "전남광주보성군"
+  },
+  "5790000": {
+    "areaCode": "38",
+    "sigunguCode": "11",
+    "name": "전남광주순천시"
+  },
+  "5910000": {
+    "areaCode": "38",
+    "sigunguCode": "12",
+    "name": "전남광주신안군"
+  },
+  "5785000": {
+    "areaCode": "38",
+    "sigunguCode": "13",
+    "name": "전남광주여수시"
+  },
+  "5890000": {
+    "areaCode": "38",
+    "sigunguCode": "16",
+    "name": "전남광주영광군"
+  },
+  "5875000": {
+    "areaCode": "38",
+    "sigunguCode": "17",
+    "name": "전남광주영암군"
+  },
+  "5900000": {
+    "areaCode": "38",
+    "sigunguCode": "18",
+    "name": "전남광주완도군"
+  },
+  "5895000": {
+    "areaCode": "38",
+    "sigunguCode": "19",
+    "name": "전남광주장성군"
+  },
+  "5860000": {
+    "areaCode": "38",
+    "sigunguCode": "20",
+    "name": "전남광주장흥군"
+  },
+  "5905000": {
+    "areaCode": "38",
+    "sigunguCode": "21",
+    "name": "전남광주진도군"
+  },
+  "5885000": {
+    "areaCode": "38",
+    "sigunguCode": "22",
+    "name": "전남광주함평군"
+  },
+  "5870000": {
+    "areaCode": "38",
+    "sigunguCode": "23",
+    "name": "전남광주해남군"
+  },
+  "5855000": {
+    "areaCode": "38",
+    "sigunguCode": "24",
+    "name": "전남광주화순군"
+  },
+  "6520000": {
+    "areaCode": "39",
+    "sigunguCode": "3",
+    "name": "제주서귀포시"
+  },
+  "6510000": {
+    "areaCode": "39",
+    "sigunguCode": "4",
+    "name": "제주제주시"
+  }
+}
