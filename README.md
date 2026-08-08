@@ -26,6 +26,13 @@
   - `enrich_<region>.json`은 `[{"id": "<장소 id>", "has": <비트마스크>}]` 형태이고, has 값이 있는
     곳만 담는다(0인 곳은 아예 안 넣음).
   - `data/version.json`의 `enrichRegions`에 지역별 버전을 따로 관리한다.
-- **아직 안 된 것**: TourAPI의 지역 코드(areaCode/sigunguCode)가 우리 지역 코드와 체계가 달라서,
-  지금은 강남구(3220000)만 검증했다. 전국 230개 지역으로 넓히려면 그 코드 매핑표를 먼저 만들어야
-  한다. `kidsfacility` 필드는 표본에서 값이 전부 비어 있어서 이번엔 안 썼다.
+- `kidsfacility` 필드는 표본에서 값이 전부 비어 있어서 이번엔 안 썼다.
+
+#### 전국 확대 진행 상황
+
+TourAPI 개발계정은 하루 호출 한도가 1,000건이라(전국 전체 예상 호출량 약 9,000건), 하루치씩
+나눠서 `tools/build_enrichment.py`를 여러 번 실행해 진행한다. 실행할 때마다 완료된 지역이
+`tools/enrichment_progress.json`에 저장되고, 다음 실행은 자동으로 그 다음 지역부터 이어간다.
+
+**진행 상황: 24 / 226 지역 완료 (2026-08-08 기준)** — 서울 24개 구 완료, 나머지 지역 남음.
+이어서 하려면: `python3 tools/build_enrichment.py`
