@@ -1151,5 +1151,12 @@
       "sha256": "cc5a9fc9afb1413cf4dffa1815b6ba36fb03c8641c241dfaae71ede33a8dc157",
       "bytes": 1402812
     }
+  },
+  "enrichRegions": {
+    "3220000": {
+      "v": 1,
+      "sha256": "b8990afe5dc4a32f171b3a79e2b4e62c363b16166ed551ae0585f9454a8d64f2",
+      "bytes": 2479
+    }
   }
 }
