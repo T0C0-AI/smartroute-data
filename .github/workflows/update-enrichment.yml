@@ -1,0 +1,40 @@
+name: 조건 보강 데이터 매일 자동 확대
+
+on:
+  schedule:
+    # 매일 05:00 KST(전날 20:00 UTC). TourAPI 개발계정 하루 호출 한도(1,000건)가
+    # 전국 226개 지역을 한 번에 못 돌 만큼 작아서(예상 필요량 약 9,000건),
+    # 하루치씩 나눠서 매일 자동으로 이어간다. tools/enrichment_progress.json에
+    # 남은 지역이 없으면(전국 완료) 스크립트가 바로 끝나고 커밋도 안 한다.
+    - cron: "0 20 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 주차·금연·포장·카드결제 보강 (KorService2)
+        env:
+          TOURS_API_KEY: ${{ secrets.TOURS_API_KEY }}
+        run: python tools/build_enrichment.py
+
+      - name: 변경 있으면 커밋
+        run: |
+          git config user.name "smartroute-data-bot"
+          git config user.email "actions@users.noreply.github.com"
+          if git diff --quiet -- data/ tools/enrichment_progress.json; then
+            echo "변경 없음 — 커밋 생략"
+            exit 0
+          fi
+          git add data/ tools/enrichment_progress.json
+          git commit -m "데이터 자동 갱신: 조건 보강 지역 확대 $(date -u +%Y-%m-%d)"
+          git push
