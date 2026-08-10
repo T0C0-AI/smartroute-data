@@ -14,6 +14,15 @@
   전부 0(모름)으로 채운다 — 추측으로 채우면 안전 필터 로직이 무너진다.
 - 카페 카테고리("식품_휴게음식점")에는 편의점·백화점·패스트푸드도 섞여 있다.
   코스에 쓸 만한 업태(커피숍·다방·전통찻집·떡카페·키즈카페)만 골랐다.
+- **버그였던 것(2026-08-10 발견·수정)**: 맥도날드·버거킹·롯데리아·KFC 같은 패스트푸드
+  체인은 "휴게음식점" 안에서 업태구분명이 "패스트푸드"인데, 위 화이트리스트에 없어서
+  전국에서 통째로 빠져 있었다(강남구 실측: 맥도날드 9곳·버거킹 6곳·롯데리아 6곳이 전부
+  누락). 배스킨라빈스·던킨 같은 디저트 체인도 업태구분명이 "과자점"·"아이스크림"이라
+  마찬가지로 빠져 있었다. 이 3개 업태를 추가해서 다시 받는다 — 패스트푸드는 실제로
+  "식사"이므로 cafe가 아니라 meal 카테고리로 분류한다(업태구분명별로 카테고리가 갈리는
+  유일한 경우라 REST_CAFE_TYPE_TO_CATEGORY로 따로 관리).
+  파리바게뜨는 이 카테고리에 아예 없다("제과점영업"이라는 완전히 다른 인허가 구분이라
+  별도 데이터 소스가 필요함, 이번 수정 범위 밖) — docs/ROADMAP.md에 다음 작업으로 남김.
 - orgCode에 "_ALL"을 붙이면(예: 6110000_ALL) 그 시/도 전체를 한 번에 받을 수 있고,
   각 행에는 자기 시군구 코드(개방자치단체코드)가 그대로 들어있다 — 그래서 245개
   시군구를 하나씩 받을 필요 없이 17개 시/도 단위로만 받고, 파싱 단계에서
@@ -69,7 +78,16 @@ REGION_DELAY_SECONDS = 5
 # types가 None이면 영업상태만 보고 전부 채택, 아니면 업태구분명이 목록에 있는 것만.
 CATEGORIES = {
     "meal": {"slug": "general_restaurants", "types": None},
-    "cafe": {"slug": "rest_cafes", "types": {"커피숍", "다방", "전통찻집", "떡카페", "키즈카페"}},
+    "cafe": {"slug": "rest_cafes", "types": None},  # 실제 카테고리는 REST_CAFE_TYPE_TO_CATEGORY가 정함
+}
+
+# "휴게음식점"(rest_cafes) 안에서 업태구분명별로 실제 카테고리가 갈린다 — 코스에 쓸 만한
+# 업태만 골랐고, 그중 패스트푸드는 "식사"라 cafe가 아니라 meal로 보낸다. 목록에 없는
+# 업태(편의점·백화점·일반조리판매·기타 휴게음식점·푸드트럭·철도역구내·관광호텔 등)는
+# 프랜차이즈인지 아닌지 표본만으로 확신할 수 없어서 이번엔 그대로 뺐다.
+REST_CAFE_TYPE_TO_CATEGORY = {
+    "커피숍": "cafe", "다방": "cafe", "전통찻집": "cafe", "떡카페": "cafe", "키즈카페": "cafe",
+    "패스트푸드": "meal", "과자점": "cafe", "아이스크림": "cafe",
 }
 
 _transformer = Transformer.from_crs("EPSG:5174", "EPSG:4326", always_xy=True)
@@ -107,16 +125,32 @@ def fetch_csv(slug: str, org_code: str) -> str:
     return raw.decode("euc-kr", errors="ignore")
 
 
-def parse_places(csv_text: str, category: str, types: set[str] | None) -> dict[str, list[dict]]:
-    """행마다 자기 시군구 코드(개방자치단체코드)로 결과를 나눠서 돌려준다."""
+def parse_places(
+    csv_text: str,
+    category: str,
+    types: set[str] | None,
+    type_to_category: dict[str, str] | None = None,
+) -> dict[str, list[dict]]:
+    """행마다 자기 시군구 코드(개방자치단체코드)로 결과를 나눠서 돌려준다.
+
+    type_to_category가 있으면(휴게음식점처럼 업태구분명별로 실제 카테고리가 갈리는 경우)
+    그 매핑에 없는 업태는 건너뛰고, 있으면 고정 category 대신 매핑된 값을 쓴다.
+    """
     reader = csv.DictReader(io.StringIO(csv_text))
     by_region: dict[str, list[dict]] = {}
     seen_ids: set[str] = set()
     for row in reader:
         if row.get("영업상태명") != ACTIVE_STATUS:
             continue
-        if types is not None and row.get("업태구분명", "").strip() not in types:
-            continue
+        row_type = row.get("업태구분명", "").strip()
+        if type_to_category is not None:
+            if row_type not in type_to_category:
+                continue
+            row_category = type_to_category[row_type]
+        else:
+            if types is not None and row_type not in types:
+                continue
+            row_category = category
         x = (row.get("좌표정보(X)") or "").strip()
         y = (row.get("좌표정보(Y)") or "").strip()
         if not x or not y:
@@ -137,7 +171,7 @@ def parse_places(csv_text: str, category: str, types: set[str] | None) -> dict[s
         by_region.setdefault(region_code, []).append({
             "id": place_id,
             "region": region_code,
-            "category": category,
+            "category": row_category,
             "name": name,
             "address": address,
             "lat": round(lat, 7),
@@ -174,7 +208,8 @@ def fetch_upper_region(org_code: str) -> dict[str, list[dict]]:
     for category, spec in CATEGORIES.items():
         print(f"  [{category}] 다운로드 중 (slug={spec['slug']}, orgCode={org_code})...", file=sys.stderr)
         csv_text = fetch_csv(spec["slug"], org_code)
-        by_region = parse_places(csv_text, category, spec["types"])
+        type_to_category = REST_CAFE_TYPE_TO_CATEGORY if category == "cafe" else None
+        by_region = parse_places(csv_text, category, spec["types"], type_to_category)
         total = sum(len(v) for v in by_region.values())
         print(f"  [{category}] {total}건, {len(by_region)}개 시군구", file=sys.stderr)
         for region_code, places in by_region.items():
