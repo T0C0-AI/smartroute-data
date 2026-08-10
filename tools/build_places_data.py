@@ -252,7 +252,14 @@ def main():
         if i < len(upper_items) - 1:
             time.sleep(REGION_DELAY_SECONDS)
 
-    version_path.write_text(json.dumps({"schema": 1, "regions": regions_meta}, ensure_ascii=False, indent=2) + "\n")
+    # existing을 그대로 이어 쓴다 — "regions"만 덮어쓰고 나머지 키(enrichRegions 등)는
+    # 그대로 보존한다. 예전엔 {"schema":1,"regions":...}로 통째로 새로 써서, 이 스크립트를
+    # 실행할 때마다 보강 데이터(enrichRegions)의 버전 기록이 통째로 지워지는 버그가 있었다
+    # (2026-08-10 발견 — 버전이 리셋되면 이미 동기화한 기기가 "이미 최신"이라고 착각해서
+    # 바뀐 보강 데이터를 다시 안 받아간다. 실물 데이터는 안 지워졌지만 버전 추적이 깨졌었다).
+    existing["schema"] = 1
+    existing["regions"] = regions_meta
+    version_path.write_text(json.dumps(existing, ensure_ascii=False, indent=2) + "\n")
 
     if failed:
         print(f"\n실패한 시/도 {len(failed)}개: {', '.join(failed)}", file=sys.stderr)
